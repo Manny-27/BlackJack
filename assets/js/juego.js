@@ -12,6 +12,13 @@
 let deck = [];
 const tipos = ['C', 'D', 'H', 'S'];
 const especiales = ['A', 'J', 'Q', 'k'];
+let puntosJugador = 0, puntosComputadora = 0;
+
+//Referecnia del html
+const btnPedir = document.querySelector('#btn-Pedir');
+
+const divCartasJugador = document.querySelector('#jugador-cartas');
+const puntosHTML = document.querySelectorAll('small');
 
 const crearDeck = () =>{
 
@@ -44,8 +51,8 @@ const perdirCarta = () => {
 
     const carta = deck.pop();
 
-    console.log(deck);
-    console.log(carta);
+    // console.log(deck);
+    // console.log(carta);
     return carta;
 }
 
@@ -71,5 +78,25 @@ const valorCarta = (carta) => {
     // }
 }
 
-const valor = valorCarta( perdirCarta() );
-console.log({valor});
+// const valor = valorCarta( perdirCarta() );
+// console.log({valor});
+
+//eventos
+btnPedir.addEventListener('click', () => {
+    const carta = perdirCarta();
+    puntosJugador = puntosJugador + valorCarta(carta);
+
+    puntosHTML[0].innerText = puntosJugador;
+    
+    // <img class="carta" src="assets/cartas/10S.png">    
+    const imgCarta = document.createElement('img');
+    imgCarta.src = `assets/cartas/${carta}.png`; //agregando la carta en especifico
+    imgCarta.classList.add('carta');
+    divCartasJugador.append( imgCarta );
+
+    
+
+
+});
+
+
