@@ -16,8 +16,11 @@ let puntosJugador = 0, puntosComputadora = 0;
 
 //Referecnia del html
 const btnPedir = document.querySelector('#btn-Pedir');
+const btnDetener = document.querySelector('#btn-Detener');
+
 
 const divCartasJugador = document.querySelector('#jugador-cartas');
+const divCartasComputadora = document.querySelector('#computadora-cartas');
 const puntosHTML = document.querySelectorAll('small');
 
 const crearDeck = () =>{
@@ -81,6 +84,30 @@ const valorCarta = (carta) => {
 // const valor = valorCarta( perdirCarta() );
 // console.log({valor});
 
+// Turno de la computadora
+const turnoComputadora = (puntosMinimos) => {
+    do {
+        const carta = perdirCarta();
+        puntosComputadora = puntosComputadora + valorCarta(carta);
+
+        puntosHTML[1].innerText = puntosComputadora;
+    
+        // <img class="carta" src="assets/cartas/10S.png">  
+        // <img class="carta" src="assets/cartas/ac.png" alt="150"></img>  
+        const imgCarta = document.createElement('img');
+        imgCarta.src = `assets/cartas/${carta}.png`; //agregando la carta en especifico
+        imgCarta.classList.add('carta');
+        divCartasComputadora.append( imgCarta );
+
+        if(puntosMinimos > 21){
+            break;
+        }
+
+    }while((puntosComputadora < puntosMinimos) && (puntosMinimos <= 21));
+
+}
+
+
 //eventos
 btnPedir.addEventListener('click', () => {
     const carta = perdirCarta();
@@ -94,9 +121,25 @@ btnPedir.addEventListener('click', () => {
     imgCarta.classList.add('carta');
     divCartasJugador.append( imgCarta );
 
-    
+    if (puntosJugador > 21){
+        console.warn('perdiste');
+        btnPedir.disabled = true;
+        btnDetener.desabled = true;
+        turnoComputadora(puntosJugador);
+    }else if(puntosJugador === 21){
+        console.warn('que chepozo');
+        btnPedir.disabled = true;
+        btnDetener.desabled = true;
+        turnoComputadora(puntosJugador);
+    }
 
+});
 
+btnDetener.addEventListener('click', () => {
+    btnDetener.desabled = true;
+    btnDetener.desabled = true;
+
+    turnoComputadora(puntosJugador);
 });
 
 
